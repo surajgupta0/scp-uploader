@@ -26,7 +26,7 @@ This Visual Studio Code extension allows you to **upload files or folders to a r
       "user": "ubuntu",
       "ip": "192.168.1.100",
       "remotePath": "/var/www/html",
-      "localRootPath": "c:/Users/kumar/Sites/gsh/"
+      "localRootPath": "c:/Users/kumar/Sites/"
     }
   ],
   "scpUploader.defaultServer": 0
