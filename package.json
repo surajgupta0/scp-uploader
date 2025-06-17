@@ -6,12 +6,11 @@
   "engines": {
     "vscode": "^1.60.0"
   },
+  "main": "./extension.js",
   "activationEvents": [
     "onCommand:scpUploader.upload",
-    "onCommand:scpUploader.switchServer",
-    "onStartupFinished"
+    "onCommand:scpUploader.download"
   ],
-  "main": "./extension.js",
   "contributes": {
     "commands": [
       {
@@ -19,8 +18,8 @@
         "title": "Upload via SCP"
       },
       {
-        "command": "scpUploader.switchServer",
-        "title": "Switch SCP Server"
+        "command": "scpUploader.download",
+        "title": "Download via SCP"
       }
     ],
     "menus": {
@@ -29,41 +28,44 @@
           "command": "scpUploader.upload",
           "when": "resourceLangId != ''",
           "group": "navigation"
+        },
+        {
+          "command": "scpUploader.download",
+          "when": "resourceLangId != ''",
+          "group": "navigation"
         }
       ]
     },
-
     "configuration": {
-    "type": "object",
-    "title": "SCP Uploader",
-    "properties": {
-      "scpUploader.servers": {
-        "type": "array",
-        "description": "List of SCP server configurations",
-        "items": {
-          "type": "object",
-          "properties": {
-            "name": { "type": "string", "description": "Server name" },
-            "user": { "type": "string", "description": "Username" },
-            "ip": { "type": "string", "description": "Server IP address" },
-            "remotePath": { "type": "string", "description": "Remote path" },
-            "localRootPath": { "type": "string", "description": "Local root path" }
-          },
-          "required": ["name", "user", "ip", "remotePath", "localRootPath"]
+      "type": "object",
+      "title": "SCP Uploader",
+      "properties": {
+        "scpUploader.servers": {
+          "type": "array",
+          "description": "List of SCP server configurations",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string", "description": "Server name" },
+              "user": { "type": "string", "description": "Username" },
+              "ip": { "type": "string", "description": "Server IP address" },
+              "remotePath": { "type": "string", "description": "Remote path" },
+              "localRootPath": { "type": "string", "description": "Local root path" }
+            },
+            "required": ["name", "user", "ip", "remotePath", "localRootPath"]
+          }
+        },
+        "scpUploader.defaultServer": {
+          "type": "number",
+          "default": 0,
+          "description": "Index of the default server"
         }
-      },
-      "scpUploader.defaultServer": {
-        "type": "number",
-        "default": 0,
-        "description": "Index of the default server"
       }
     }
-  }
   },
   "scripts": {
-
     "build-extension": "vsce package"
-},
+  },
   "devDependencies": {
     "vscode": "^1.1.37"
   }
