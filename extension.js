@@ -38,14 +38,22 @@ async function uploadFile(uri) {
 
   // Ensure remote directory exists and chown before upload
   const remoteDir = path.posix.dirname(serverPath);
-
+  const isDir = fs.lstatSync(filePath).isDirectory();
+  const isDirFlag = isDir ? "true" : "false";
+  
   const mkdirChownCommand = `
     ssh ${server.user}@${server.ip} '
     if [ ! -d "${remoteDir}" ]; then
       sudo mkdir -p "${remoteDir}" && sudo chown ${server.user}: "${remoteDir}"
+    else
+      sudo chown -R ${server.user}: "${remoteDir}"
     fi
     if [ ! -e "${serverPath}" ]; then
-      touch "${serverPath}" || mkdir -p "${serverPath}"
+      if [[ "${isDirFlag}" == "true" ]]; then
+        mkdir -p "${serverPath}"
+      else
+        touch "${serverPath}"
+      fi
     fi
     sudo chown -R ${server.user}: "${serverPath}"
   '
